@@ -4,9 +4,15 @@ class UnionFind:
         self.obj_set = []
         for i in range(N):
             self.obj_set.append(i)
+    
+    def _get_root(self, p):
+        r = self.obj_set[p]
+        while r != self.obj_set[r]:
+            r = self.obj_set[r]
+        return r
 
     def find(self, p, q):
-        if self.obj_set[p] == self.obj_set[q]:
+        if self._get_root(p) == self._get_root(q):
             return True
         else:
             return False
@@ -15,19 +21,18 @@ class UnionFind:
         if self.find(p,q):
             return
         else:
-            new = self.obj_set[q]
-            old = self.obj_set[p]
-            for i in range(len(self.obj_set)):
-                if self.obj_set[i] == old:
-                    self.obj_set[i] = new
+            new = self._get_root(q)
+            old = self._get_root(p)
+            self.obj_set[old] = new
 
 DC = UnionFind(10)
-print(DC.obj_set)
 DC.union(4, 3)
-DC.union(3, 8)   
+DC.union(3, 8)
 DC.union(6, 5)
 DC.union(9, 4)
-DC.union(8, 9)
 DC.union(2, 1)
+DC.union(5, 0)
+DC.union(7, 2)
+DC.union(6, 1)
+DC.union(7, 3)
 print(DC.obj_set)
-print(DC.find(2, 3))     
