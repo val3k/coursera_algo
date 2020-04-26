@@ -31,4 +31,3 @@ class UnionFind:
             else:
                 self.obj_set[new] = old
                 self.sz[old] += self.sz[new]
-
