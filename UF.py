@@ -32,19 +32,3 @@ class UnionFind:
                 self.obj_set[new] = old
                 self.sz[old] += self.sz[new]
 
-
-DC = UnionFind(12)
-DC.union(2, 0)
-DC.union(1, 3)
-DC.union(1, 4)
-DC.union(5, 1)
-DC.union(0, 1)
-DC.union(3, 7)
-DC.union(6, 8)
-DC.union(6, 9)
-DC.union(8, 10)
-DC.union(9, 11)
-DC.union(9, 12)
-DC.union(8, 6)
-
-print(DC.obj_set)
