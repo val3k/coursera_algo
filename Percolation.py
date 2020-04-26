@@ -1,4 +1,3 @@
-import random
 from UF import UnionFind
 
 
@@ -53,4 +52,3 @@ class Percolation:
             return True
         else:
             return False
-
