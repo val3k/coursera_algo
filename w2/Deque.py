@@ -1,4 +1,4 @@
-class Node:
+class Node():
     def __init__(self, item):
         self.item = item
         self.next = None
@@ -105,6 +105,3 @@ for i in in_s:
         ll.addLast(i)
     else:
         ll.addFirst(i)
-
-# for i in ll:
-#     print(i)
