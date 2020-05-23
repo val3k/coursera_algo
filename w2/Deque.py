@@ -28,30 +28,48 @@ class Deque():
         return self.size == 0
 
     def addFirst(self, item):
-        oldfirst = self.first
-        self.first = Node(item)
-        self.first.next = oldfirst
-        self.size += 1
+        if item is None:
+            raise ValueError('item is None, pass not null value')
+        if self.first.item is None:
+            self.first.item = item
+            self.size += 1
+        else:
+            oldfirst = self.first
+            self.first = Node(item)
+            self.first.next = oldfirst
+            self.size += 1
 
     def addLast(self, item):
-        oldlast = self.last
-        self.last = Node(item)
-        self.last.next = None
-        oldlast.next = self.last
-        self.last.prev = oldlast
-        self.size += 1
+        if item is None:
+            raise ValueError('item is None, pass not null value')
+        if self.last.item is None:
+            self.last.item = item
+            self.size += 1
+        else:
+            oldlast = self.last
+            self.last = Node(item)
+            self.last.next = None
+            oldlast.next = self.last
+            self.last.prev = oldlast
+            self.size += 1
 
     def removeFirst(self):
-        item = self.first.item
-        self.first = self.first.next
-        self.size -= 1
-        print(item)
+        if self.isEmpty():
+            raise ValueError('no items to remove')
+        else:
+            item = self.first.item
+            self.first = self.first.next
+            self.size -= 1
+            print(item)
 
     def removeLast(self):
-        item = self.last.item
-        self.last = self.last.prev
-        self.size -= 1
-        print(item)
+        if self.isEmpty():
+            raise ValueError('no items to remove')
+        else:
+            item = self.last.item
+            self.last = self.last.prev
+            self.size -= 1
+            print(item)
 
 
 class linkedList():
@@ -77,7 +95,7 @@ class linkedList():
 
 
 ll = Deque()
-in_s = 'abcdZYXW'
+in_s = 'abcdLADR-----'
 for i in in_s:
     if i == '-':
         ll.removeFirst()
@@ -88,11 +106,5 @@ for i in in_s:
     else:
         ll.addFirst(i)
 
-for i in ll:
-    print(i)
-
-
-
-
-
-
+# for i in ll:
+#     print(i)
