@@ -10,7 +10,7 @@ def print_random(k, fname):
             rq.enqueue(line.strip())
             line = f.readline()
     for i in range(k):
-        s = rq.sample()
+        s = rq.dequeue()
         print(s)
 
 
