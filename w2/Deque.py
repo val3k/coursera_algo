@@ -16,12 +16,16 @@ class Deque():
         return self
 
     def __next__(self):
+        # start iteration from first
         if self.current is None:
             self.current = self.first
         item = self.current.item
-        self.current = self.current.next
-        if self.current is None:
+        if item is None:
             raise StopIteration
+        self.current = self.current.next
+        # create empty node for stop iteration
+        if self.current is None:
+            self.current = Node(None)
         return item
 
     def isEmpty(self):
@@ -92,16 +96,3 @@ class linkedList():
         self.first = self.first.next
         self.size -= 1
         print(item)
-
-
-ll = Deque()
-in_s = 'abcdLADR-----'
-for i in in_s:
-    if i == '-':
-        ll.removeFirst()
-    elif i == '_':
-        ll.removeLast()
-    elif i.isupper():
-        ll.addLast(i)
-    else:
-        ll.addFirst(i)
