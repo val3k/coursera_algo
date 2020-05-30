@@ -56,6 +56,7 @@ class RandomizedQueue():
                 to_del = cur.next
                 item = to_del.item
                 cur.next = to_del.next
+                self.size -= 1
                 return item
             else:
                 cur = cur.next
