@@ -1,3 +1,7 @@
+import numpy as np
+from Sorting import mergesort
+
+
 class Point:
     def __init__(self, x, y):
         self.x = x
@@ -45,17 +49,57 @@ class LineSegment:
 class BruteCollinearPoints:
     def __init__(self, points):
         self.points = points
-        self.ls = []
+        self.seg_list = []
+
+    def check_rep_seg(self, seg):
+        if len(self.seg_list) == 0:
+            return True
+        for ls in self.seg_list:
+            if ls.p1.compareTo(seg.p2) == 0 and ls.p2.compareTo(seg.p1) == 0:
+                return False
+        return True
 
     def numberOfSegments(self):
         for p in self.points:
             for q in self.points:
+                if q.compareTo(p) == 0:
+                    continue
+                direction = p.compareTo(q)
                 for r in self.points:
+                    if q.compareTo(r) != direction:
+                        continue
                     for s in self.points:
+                        if r.compareTo(s) != direction:
+                            continue
                         if p.slopeTo(q) == p.slopeTo(s) == p.slopeTo(r):
-                            self.ls.append(LineSegment(p, s))
+                            if self.check_rep_seg(LineSegment(p, s)):
+                                self.seg_list.append(LineSegment(p, s))
+        return len(self.seg_list)
 
     def segments(self):
-        return self.ls
-            
+        return self.seg_list
 
+
+class FastCollinearPoints(BruteCollinearPoints):
+    def numberOfSegments(self):
+        for p in self.points:
+            slopes = []
+            point_list = []
+            for q in self.points:
+                if q.compareTo(p) == 0:
+                    continue
+                slopes.append(p.slopeTo(q))
+                point_list.append(q)
+
+            slopes_sorted = mergesort(zip(slopes, point_list))
+            start = slopes_sorted[0][0]
+            ls = []
+            for sp in slopes_sorted[1:]:
+                if start == sp[0]:
+                    ls.append(sp[1])
+                else:
+                    start = sp[0]
+                    if len(ls) >= 3:
+                        self.seg_list.append(LineSegment(p, ls[-1]))
+
+        return len(self.seg_list)
