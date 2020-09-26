@@ -25,6 +25,6 @@ def test_trivial():
 def test_merge():
     a1 = [2, 5]
     a2 = [1, 3, 4]
-    a = merge(a1, a2)
+    a = merge(a1, a2, comp_function=lambda x, y: x <= y)
     assert np.array_equal(a, np.arange(1, 6))
 
