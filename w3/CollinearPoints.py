@@ -1,4 +1,3 @@
-import numpy as np
 from Sorting import mergesort
 
 
@@ -83,23 +82,29 @@ class BruteCollinearPoints:
 class FastCollinearPoints(BruteCollinearPoints):
     def numberOfSegments(self):
         for p in self.points:
-            slopes = []
             point_list = []
             for q in self.points:
                 if q.compareTo(p) == 0:
                     continue
-                slopes.append(p.slopeTo(q))
                 point_list.append(q)
-
-            slopes_sorted = mergesort(zip(slopes, point_list))
-            start = slopes_sorted[0][0]
-            ls = []
-            for sp in slopes_sorted[1:]:
-                if start == sp[0]:
-                    ls.append(sp[1])
+            points_sorted = mergesort(point_list,
+                                      comp_function=lambda p1, p2: p.slopeTo(p1) <= p.slopeTo(p2))
+            start = p.slopeTo(points_sorted[0])
+            direction = p.compareTo(points_sorted[0])
+            ls = [points_sorted[0]]
+            for sp in points_sorted[1:]:
+                if start == p.slopeTo(sp) and direction == p.compareTo(sp):
+                    ls.append(sp)
                 else:
-                    start = sp[0]
+                    start = p.slopeTo(sp)
+                    direction = p.compareTo(sp)
                     if len(ls) >= 3:
-                        self.seg_list.append(LineSegment(p, ls[-1]))
+                        if direction < 0:
+                            linseg = LineSegment(p, ls[-1])
+                        else:
+                            linseg = LineSegment(p, ls[0])
+                        if self.check_rep_seg(linseg):
+                            self.seg_list.append(linseg)
+                    ls = [sp]
 
         return len(self.seg_list)
