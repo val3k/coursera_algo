@@ -19,7 +19,7 @@ def test_fast():
     for p in inp:
         points.append(Point(p[0], p[1]))
     fcp = FastCollinearPoints(points)
-    assert fcp.numberOfSegments()  == 2
+    assert fcp.numberOfSegments() == 2
 
 
 def test_sort_points():
