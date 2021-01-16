@@ -44,4 +44,20 @@ def test_equals():
     assert not b.equals(c)
 
 
+def test_blank():
+    b = Board()
+    b.tiles = [1, 2, 3, 0, 5, 6, 7, 8, 4]
+    pos, moves = b.get_blank()
+    assert pos == 3
+    assert len(moves) == 3
+    b.tiles = [1, 2, 3, 5, 0, 6, 7, 8, 4]
+    pos, moves = b.get_blank()
+    assert pos == 4
+    assert len(moves) == 4
+
+
+def test_neighbors(): # add test
+    b = Board()
+    b.tiles = [1, 2, 3, 0, 5, 6, 7, 8, 4]
+    assert b.get_blank == 3
 
