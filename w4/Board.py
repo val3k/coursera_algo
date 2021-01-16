@@ -53,6 +53,45 @@ class Board():
         else:
             return False
 
+    def get_blank(self):
+        for pos, i in enumerate(self.tiles):
+            if i == 0:
+                break
+        moves = []
+        row = pos // self.n
+        col = pos % self.n
+        if col - 1 >= 0:
+            moves.append('left')
+        if row - 1 >= 0:
+            moves.append('down')
+        if col + 1 <= self.n - 1:
+            moves.append('right')
+        if row + 1 <= self.n - 1:
+            moves.append('up')
+        return pos, moves
+
+    def blank_move(self, pos, move):
+        if move == 'left':
+            self.tiles[pos] = self.tiles[pos-1]
+            self.tiles[pos-1] = 0
+        elif move == 'down':
+            self.tiles[pos] = self.tiles[pos+self.n]
+            self.tiles[pos+self.n] = 0
+        elif move == 'right':
+            self.tiles[pos] = self.tiles[pos+1]
+            self.tiles[pos+1] = 0
+        elif move == 'up':
+            self.tiles[pos] = self.tiles[pos-self.n]
+            self.tiles[pos-self.n] = 0
+
+    def neighbors(board):
+        list_neighbors = []
+        blank_pos, moves = board.get_blank()
+        for move in moves:
+            copy_board = board
+            list_neighbors.append(copy_board.blank_move(blank_pos, move))
+        return list_neighbors
+
 
 
 
