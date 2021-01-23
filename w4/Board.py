@@ -63,11 +63,11 @@ class Board():
         if col - 1 >= 0:
             moves.append('left')
         if row - 1 >= 0:
-            moves.append('down')
+            moves.append('up')
         if col + 1 <= self.n - 1:
             moves.append('right')
         if row + 1 <= self.n - 1:
-            moves.append('up')
+            moves.append('down')
         return pos, moves
 
     def blank_move(self, pos, move):
@@ -84,17 +84,13 @@ class Board():
             self.tiles[pos] = self.tiles[pos-self.n]
             self.tiles[pos-self.n] = 0
 
-    def neighbors(board):
-        list_neighbors = []
-        blank_pos, moves = board.get_blank()
-        for move in moves:
-            copy_board = board
-            list_neighbors.append(copy_board.blank_move(blank_pos, move))
-        return list_neighbors
 
-
-
-
-
-
-            
+def neighbors(board):
+    list_neighbors = []
+    blank_pos, moves = board.get_blank()
+    for move in moves:
+        copy_board = Board(n_tiles=board.n)
+        copy_board.tiles = [i for i in board.tiles]
+        copy_board.blank_move(blank_pos, move)
+        list_neighbors.append(copy_board)
+    return list_neighbors

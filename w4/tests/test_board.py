@@ -1,4 +1,4 @@
-from Board import Board
+from Board import Board, neighbors
 
 
 def test_str():
@@ -56,8 +56,27 @@ def test_blank():
     assert len(moves) == 4
 
 
-def test_neighbors(): # add test
+def test_move():
     b = Board()
-    b.tiles = [1, 2, 3, 0, 5, 6, 7, 8, 4]
-    assert b.get_blank == 3
+    b.tiles = [0, 1, 2, 3, 5, 6, 7, 8, 4]
+    bp, mv = b.get_blank()
+    b.blank_move(bp, 'right')
+    assert b.tiles == [1, 0, 2, 3, 5, 6, 7, 8, 4]
+    bp, mv = b.get_blank()
+    b.blank_move(bp, 'left')
+    assert b.tiles == [0, 1, 2, 3, 5, 6, 7, 8, 4]
+    bp, mv = b.get_blank()
+    b.blank_move(bp, 'down')
+    assert b.tiles == [3, 1, 2, 0, 5, 6, 7, 8, 4]
+
+
+def test_neighbors():  # add test
+    b = Board()
+    b.tiles = [0, 1, 2, 3, 5, 6, 7, 8, 4]
+    list_neighbors = neighbors(b)
+    assert len(list_neighbors) == 2
+    b1 = list_neighbors[0]
+    assert b1.tiles == [1, 0, 2, 3, 5, 6, 7, 8, 4]
+    b2 = list_neighbors[1]
+    assert b2.tiles == [3, 1, 2, 0, 5, 6, 7, 8, 4]
 
