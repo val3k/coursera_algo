@@ -1,5 +1,5 @@
-from Board import Board, neighbors
-
+from Board import Board
+import heapq
 
 def test_str():
     b = Board()
@@ -70,13 +70,32 @@ def test_move():
     assert b.tiles == [3, 1, 2, 0, 5, 6, 7, 8, 4]
 
 
-def test_neighbors():  # add test
+def test_neighbors():
     b = Board()
     b.tiles = [0, 1, 2, 3, 5, 6, 7, 8, 4]
-    list_neighbors = neighbors(b)
+    list_neighbors = b.neighbors()
     assert len(list_neighbors) == 2
     b1 = list_neighbors[0]
     assert b1.tiles == [1, 0, 2, 3, 5, 6, 7, 8, 4]
     b2 = list_neighbors[1]
     assert b2.tiles == [3, 1, 2, 0, 5, 6, 7, 8, 4]
 
+
+def test_heap():
+    minpq = []
+    b = Board()
+    b.tiles = [0, 1, 2, 3, 5, 6, 7, 8, 4]
+    moves = 0
+    heapq.heappush(minpq, (moves+b.hamming(), b))
+    game_tree = []
+    for i in range(3):
+        ln = b.neighbors()
+        game_tree.append(heapq.heappop(minpq))
+        moves += 1
+        for brd in ln:
+            if game_tree[-1][1].tiles != brd.tiles:
+                prior = moves + brd.hamming()
+                heapq.heappush(minpq, (prior, brd))
+
+    assert len(game_tree) == 3
+            

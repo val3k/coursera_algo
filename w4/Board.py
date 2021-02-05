@@ -18,6 +18,9 @@ class Board():
                 s += ' '
         return s
 
+    def __lt__(self, other):
+        return self.manhattan() < other.manhattan()
+
     def hamming(self):
         h = 0
         for i in range(self.dim):
@@ -84,13 +87,12 @@ class Board():
             self.tiles[pos] = self.tiles[pos-self.n]
             self.tiles[pos-self.n] = 0
 
-
-def neighbors(board):
-    list_neighbors = []
-    blank_pos, moves = board.get_blank()
-    for move in moves:
-        copy_board = Board(n_tiles=board.n)
-        copy_board.tiles = [i for i in board.tiles]
-        copy_board.blank_move(blank_pos, move)
-        list_neighbors.append(copy_board)
-    return list_neighbors
+    def neighbors(self):
+        list_neighbors = []
+        blank_pos, moves = self.get_blank()
+        for move in moves:
+            copy_board = Board(n_tiles=self.n)
+            copy_board.tiles = [i for i in self.tiles]
+            copy_board.blank_move(blank_pos, move)
+            list_neighbors.append(copy_board)
+        return list_neighbors
