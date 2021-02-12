@@ -1,5 +1,6 @@
 from Board import Board
-import heapq
+from Solver import Solver
+
 
 def test_str():
     b = Board()
@@ -31,6 +32,14 @@ def test_manhattan():
     assert b.manhattan() == 0
     b.tiles = [1, 2, 3, 0, 5, 6, 7, 8, 4]
     assert b.manhattan() == 6
+
+
+def test_goal():
+    b = Board()
+    b.tiles = [1, 2, 3, 4, 5, 6, 7, 8, 0]
+    assert b.isGoal()
+    b.tiles = [0, 2, 3, 1, 4, 5, 6, 7, 8]
+    assert not b.isGoal()
 
 
 def test_equals():
@@ -82,20 +91,30 @@ def test_neighbors():
 
 
 def test_heap():
-    minpq = []
     b = Board()
-    b.tiles = [0, 1, 2, 3, 5, 6, 7, 8, 4]
-    moves = 0
-    heapq.heappush(minpq, (moves+b.hamming(), b))
-    game_tree = []
-    for i in range(3):
-        ln = b.neighbors()
-        game_tree.append(heapq.heappop(minpq))
-        moves += 1
-        for brd in ln:
-            if game_tree[-1][1].tiles != brd.tiles:
-                prior = moves + brd.hamming()
-                heapq.heappush(minpq, (prior, brd))
+    b.tiles = [0, 1, 3, 4, 2, 5, 7, 8, 6]
+    s = Solver(b)
+    game_tree = s.solution()
+    a = []
+    if game_tree is not None:
+        for node in game_tree:
+            a.append(str(node[1]))
+    assert len(game_tree) == 5
 
-    assert len(game_tree) == 3
-            
+    b = Board()
+    b.tiles = [1, 2, 3, 4, 5, 6, 7, 0, 8]
+    s = Solver(b)
+    game_tree = s.solution()
+    assert len(game_tree) == 2
+
+    b = Board()
+    b.tiles = [1, 2, 3, 0, 4, 6, 7, 5, 8]
+    s = Solver(b)
+    game_tree = s.solution()
+    assert len(game_tree) == 4
+
+    b = Board()
+    b.tiles = [1, 2, 0, 3, 4, 6, 7, 5, 8]
+    s = Solver(b)
+    game_tree = s.solution()
+    assert game_tree is None
