@@ -47,7 +47,7 @@ class Board():
         return abs(tcol - col) + abs(trow - row)
 
     def isGoal(self):
-        return self.hamming == 0
+        return self.hamming() == 0
 
     def equals(self, board):
         assert self.n == board.n
