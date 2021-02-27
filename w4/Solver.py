@@ -21,7 +21,7 @@ class Solver():
     def solution(self):
         prior = self.moves + self.board.hamming()
         heapq.heappush(self.minpq, (prior, self.board))
-        for i in range(10):
+        while True:
             self.game_tree.append(heapq.heappop(self.minpq))
             self.minpq = []
             self.moves += 1
@@ -30,7 +30,7 @@ class Solver():
             possible_boards = last_board.neighbors()
             third_board = self.game_tree[1-self.moves-1][1]
 
-            if third_board == last_board:
+            if third_board.tiles == last_board.tiles:
                 self.loops += 1
 
             if last_board.isGoal():
