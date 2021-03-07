@@ -39,3 +39,15 @@ class BST():
 
     def delete(self, key):
         pass
+
+    def inorder(self):
+        ord_list = []
+        self._inorder(self.root, ord_list)
+        return ord_list
+
+    def _inorder(self, node, ord_list):
+        if node is None:
+            return
+        self._inorder(node.left, ord_list)
+        ord_list.append(node.key)
+        self._inorder(node.right, ord_list)

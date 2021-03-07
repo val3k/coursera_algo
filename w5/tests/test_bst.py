@@ -25,3 +25,18 @@ def test_put():
     assert bst.root.right.value == 4
     bst.put('f', 7)
     assert bst.root.right.right.value == 7
+
+
+def test_order():
+    bst = BST()
+    bst.put('s', 3)
+
+    bst.put('e', 5)
+    bst.put('a', 1)
+    bst.put('x', 0)
+    
+    bst.put('r', 4)
+    bst.put('h', 7)
+    a = bst.inorder()
+    assert a == ['a', 'e', 'h', 'r', 's', 'x'] 
+    
