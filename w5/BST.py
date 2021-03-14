@@ -1,9 +1,10 @@
 class Node():
-    def __init__(self, key, value):
+    def __init__(self, key, value, color):
         self.key = key
         self.value = value
         self.left = None
         self.right = None
+        self.color = color
 
 
 class BST():
@@ -15,7 +16,7 @@ class BST():
 
     def _put(self, node, key, value):
         if node is None:
-            return Node(key, value)
+            return Node(key, value, 'RED')
 
         if node.key < key:
             node.right = self._put(node.right, key, value)
@@ -23,6 +24,13 @@ class BST():
             node.left = self._put(node.left, key, value)
         else:
             node.value = value
+
+        if self.is_red(node.right) and not self.is_red(node.left):
+            node = self.rotate_left(node)
+        if self.is_red(node.left) and self.is_red(node.left.left):
+            node = self.rotate_right(node)
+        if self.is_red(node.left) and self.is_red(node.right):
+            self.flip_color(node)
 
         return node
 
@@ -51,3 +59,30 @@ class BST():
         self._inorder(node.left, ord_list)
         ord_list.append(node.key)
         self._inorder(node.right, ord_list)
+
+    def is_red(self, node):
+        if node is None:
+            return False
+        return node.color == 'RED'
+
+    def rotate_left(self, node):
+        roteted = node.right
+        node.right = roteted.left
+        roteted.left = node
+        roteted.color = node.color
+        node.color = 'RED'
+        return roteted
+
+    def rotate_right(self, node):
+        roteted = node.left
+        node.left = roteted.right
+        roteted.right = node
+        roteted.color = node.color
+        node.color = 'RED'
+        return roteted
+
+    def flip_color(self, node):
+        node.color = 'RED'
+        node.left.color = 'BLACK'
+        node.right.color = 'BLACK'
+

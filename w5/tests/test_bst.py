@@ -38,5 +38,19 @@ def test_order():
     bst.put('r', 4)
     bst.put('h', 7)
     a = bst.inorder()
-    assert a == ['a', 'e', 'h', 'r', 's', 'x'] 
+    assert a == ['a', 'e', 'h', 'r', 's', 'x']
+
+
+def test_rb_tree():
+    bst = BST()
+    bst.put('a', 1)
+    bst.put('b', 1)
+    bst.put('c', 1)
+    bst.put('d', 1)
+    bst.put('e', 1)
+
+    assert bst.root.key == 'd'
+    assert bst.root.left.key == 'b'
+    a = bst.inorder()
+    assert a == ['a', 'b', 'c', 'd', 'e']
     
