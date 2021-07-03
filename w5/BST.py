@@ -5,6 +5,7 @@ class Node():
         self.left = None
         self.right = None
         self.color = color
+        self.cnt = 1
 
 
 class BST():
@@ -31,7 +32,7 @@ class BST():
             node = self.rotate_right(node)
         if self.is_red(node.left) and self.is_red(node.right):
             self.flip_color(node)
-
+        node.cnt = 1 + self.size(node.left) + self.size(node.right)
         return node
 
     def get(self, key):
@@ -71,6 +72,7 @@ class BST():
         roteted.left = node
         roteted.color = node.color
         node.color = 'RED'
+        node.cnt = 1 + self.size(node.left) + self.size(node.right)
         return roteted
 
     def rotate_right(self, node):
@@ -79,10 +81,17 @@ class BST():
         roteted.right = node
         roteted.color = node.color
         node.color = 'RED'
+        node.cnt = 1 + self.size(node.left) + self.size(node.right)
         return roteted
 
     def flip_color(self, node):
         node.color = 'RED'
         node.left.color = 'BLACK'
         node.right.color = 'BLACK'
+
+    def size(self, node):
+        if node is None:
+            return 0
+        else:
+            return node.cnt
 
