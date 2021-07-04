@@ -95,3 +95,41 @@ class BST():
         else:
             return node.cnt
 
+    def rank(self, key, node=None):
+        if node is None:
+            node = self.root
+        if key == node.key:
+            return self.size(node.left)
+        elif key > node.key:
+            return 1 + self.size(node.left) + self.rank(key, node.right)
+        else:
+            return self.rank(key, node.left)
+
+    def range_count(self, low_key, hi_key):
+        if self.get(hi_key) is not None:
+            return self.rank(hi_key) - self.rank(low_key) + 1
+        else:
+            return self.rank(hi_key) - self.rank(low_key)
+
+    def range_search(self, low_key, hi_key, node=None, search_res=[]):
+        if node is None:
+            node = self.root
+
+        if node.key > low_key:
+            search_res = self.range_search(low_key, hi_key, node=node.left, search_res=search_res)
+        elif low_key <= node.key <= hi_key:
+            search_res.append(node.key)
+            return search_res
+        if node.key < hi_key:
+            search_res = self.range_search(low_key, hi_key, node=node.right, search_res=search_res)
+        elif low_key <= node.key <= hi_key:
+            search_res.append(node.key)
+            return search_res
+        
+        return search_res
+
+            
+
+        
+
+
