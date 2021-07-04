@@ -1,3 +1,6 @@
+from BST import BST
+
+
 class Point:
     def __init__(self, x, y):
         self.x = x
@@ -33,7 +36,7 @@ class RectHV:
         self.ymin = ymin
         self.xmax = xmax
         self.ymax = ymax
-    
+
     def contains(self, point):
         if (self.xmin <= point.x <= self.xmax) and (self.ymin <= point.y <= self.ymax):
             return True
@@ -50,3 +53,19 @@ class RectHV:
             if self.contains(self, p):
                 return True
         return False
+
+
+class PointSet(BST):
+    def __init__(self):
+        super().__init__()
+        pass
+
+    def isEmpty(self):
+        return self.root.cnt == 0
+
+    def insert(self, point):
+        self.put((point.x, point.y), point)
+
+    def contains(self, point):
+        return self.get((point.x, point.y)) == point
+
